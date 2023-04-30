@@ -1,0 +1,409 @@
+create database bms;
+use bms;
+Database changed
+mysql> create table customers(cid int(10) primary key,cname varchar (30) not null,cadd varchar (50),cphno int(15));
+Query OK, 0 rows affected, 2 warnings (0.03 sec)
+
+mysql> create table products(pid int(10) primary key,pname varchar (30) not null,pcolor varchar (50),price int(15) not null);
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> create table purchase(pid int(10) ,cid int(10),bno int(10) not null,DOP date);
+Query OK, 0 rows affected, 3 warnings (0.02 sec)
+
+mysql> create table b_info(bno int(10),total_amount int(15) not null,cid int(10));
+Query OK, 0 rows affected, 3 warnings (0.02 sec)
+
+mysql> show tables;
++---------------+
+| Tables_in_bms |
++---------------+
+| b_info        |
+| customers     |
+| products      |
+| purchase      |
++---------------+
+4 rows in set (0.03 sec)
+alter table products add pflavour varchar(50);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+insert into products values(001,'cake','brown',250,'chocolate');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into products values(002,'cake','yellow',200,'butterscotch');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(003,'cake','white',220,'vanilla');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into products values(004,'cake','black',480,'balck current');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(005,'cake','pink',210,'strawberry');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(006,'cake','white',210,'white forest');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(007,'cake','red',260,'Red velvet');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(008,'pastry','black',120,'black forest');
+
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(009,'pastry','white',160,'vanilla');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(010,'pastry','brown',180,'chocolate');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(011,'bread','brown',80,'wheat');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(012,'bread','white',80,'cheese');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(013,'cream roll','yellow',80,'vanilla');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into products values(014,'candies','rainbow colors',380,'vanilla');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from products;
++-----+------------+----------------+-------+---------------+
+| pid | pname      | pcolor         | price | pflavour      |
++-----+------------+----------------+-------+---------------+
+|   1 | cake       | brown          |   250 | chocolate     |
+|   2 | cake       | yellow         |   200 | butterscotch  |
+|   3 | cake       | white          |   220 | vanilla       |
+|   4 | cake       | black          |   480 | balck current |
+|   5 | cake       | pink           |   210 | strawberry    |
+|   6 | cake       | white          |   210 | white forest  |
+|   7 | cake       | red            |   260 | Red velvet    |
+|   8 | pastry     | black          |   120 | black forest  |
+|   9 | pastry     | white          |   160 | vanilla       |
+|  10 | pastry     | brown          |   180 | chocolate     |
+|  11 | bread      | brown          |    80 | wheat         |
+|  12 | bread      | white          |    80 | cheese        |
+|  13 | cream roll | yellow         |    80 | vanilla       |
+|  14 | candies    | rainbow colors |   380 | vanilla       |
++-----+------------+----------------+-------+---------------+
+14 rows in set (0.00 sec)
+insert into customers values(001,'Mr.Mittal','Mumbai',98563214);
+Query OK, 1 row affected (0.00 sec)
+insert into customers values(002,'Mr.Chaterjee','Pune',96541452);
+Query OK, 1 row affected (0.00 sec)
+insert into customers values(003,'Mrs.Malhotra','Banglore',97456258);
+Query OK, 1 row affected (0.00 sec)
+insert into customers values(004,'Ms.Desai','Shirdi',95863214);
+Query OK, 1 row affected (0.00 sec)
+insert into customers values(005,'Mr.Kulkarni','Kolhapur',94233568);
+Query OK, 1 row affected (0.00 sec)
+insert into customers values(006,'Mrs.Deshpande','Sambhajinagar',94563256);
+Query OK, 1 row affected (0.00 sec)
+mysql> select * from customers;
++-----+---------------+---------------+----------+
+| cid | cname         | cadd          | cphno    |
++-----+---------------+---------------+----------+
+|   1 | Mr.Mittal     | Mumbai        | 98563214 |
+|   2 | Mr.Chaterjee  | Pune          | 96541452 |
+|   3 | Mrs.Malhotra  | Banglore      | 97456258 |
+|   4 | Ms.Desai      | Shirdi        | 95863214 |
+|   5 | Mr.Kulkarni   | Kolhapur      | 94233568 |
+|   6 | Mrs.Deshpande | Sambhajinagar | 94563256 |
++-----+---------------+---------------+----------+
+6 rows in set (0.00 sec)
+mysql> insert into purchase values(001,002,101,'2022-02-11');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into purchase values(002,004,101,'2023-04-22');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into purchase values(003,001,103,'2023-01-02');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into purchase values(004,003,104,'2022-05-13');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into purchase values(005,006,105,'2021-08-24');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into purchase values(012,005,106,'2023-06-04');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from purchase;
++------+------+-----+------------+
+| pid  | cid  | bno | DOP        |
++------+------+-----+------------+
+|    1 |    2 | 101 | 2022-02-11 |
+|    2 |    4 | 101 | 2023-04-22 |
+|    3 |    1 | 103 | 2023-01-02 |
+|    4 |    3 | 104 | 2022-05-13 |
+|    5 |    6 | 105 | 2021-08-24 |
+|   12 |    5 | 106 | 2023-06-04 |
++------+------+-----+------------+
+6 rows in set (0.00 sec)
+mysql> insert into b_info values(101,1200,006);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into b_info values(102,2456,001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into b_info values(103,896,005);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into b_info values(104,450,002);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into b_info values(105,3600,004);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into b_info values(106,2100,003);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from b_info;
++------+--------------+------+
+| bno  | total_amount | cid  |
++------+--------------+------+
+|  101 |         1200 |    6 |
+|  102 |         2456 |    1 |
+|  103 |          896 |    5 |
+|  104 |          450 |    2 |
+|  105 |         3600 |    4 |
+|  106 |         2100 |    3 |
++------+--------------+------+
+6 rows in set (0.00 sec)
+mysql> update products set pflavour='vanilla' where pid=003;
+Query OK, 0 rows affected (0.01 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> select * from products;
++-----+------------+----------------+-------+---------------+
+| pid | pname      | pcolor         | price | pflavour      |
++-----+------------+----------------+-------+---------------+
+|   1 | cake       | brown          |   250 | chocolate     |
+|   2 | cake       | yellow         |   200 | butterscotch  |
+|   3 | cake       | white          |   220 | vanilla       |
+|   4 | cake       | black          |   480 | balck current |
+|   5 | cake       | pink           |   210 | strawberry    |
+|   6 | cake       | white          |   210 | white forest  |
+|   7 | cake       | red            |   260 | Red velvet    |
+|   8 | pastry     | black          |   120 | black forest  |
+|   9 | pastry     | white          |   160 | vanilla       |
+|  10 | pastry     | brown          |   180 | chocolate     |
+|  11 | bread      | brown          |    80 | wheat         |
+|  12 | bread      | white          |    80 | cheese        |
+|  13 | cream roll | yellow         |    80 | vanilla       |
+|  14 | candies    | rainbow colors |   380 | vanilla       |
++-----+------------+----------------+-------+---------------+
+14 rows in set (0.00 sec)
+
+Queries:
+1)List of all products names:
+mysql> select pname from products;
++------------+
+| pname      |
++------------+
+| cake       |
+| cake       |
+| cake       |
+| cake       |
+| cake       |
+| cake       |
+| cake       |
+| pastry     |
+| pastry     |
+| pastry     |
+| bread      |
+| bread      |
+| cream roll |
+| candies    |
++------------+
+14 rows in set (0.00 sec)
+2)Display all the customer names:
+mysql> select cname from  customers;
++---------------+
+| cname         |
++---------------+
+| Mr.Mittal     |
+| Mr.Chaterjee  |
+| Mrs.Malhotra  |
+| Ms.Desai      |
+| Mr.Kulkarni   |
+| Mrs.Deshpande |
++---------------+
+6 rows in set (0.00 sec)
+3)What is the price of the wheat bread?
+mysql> select price from products where pname='bread' and pflavour='wheat';
++-------+
+| price |
++-------+
+|    80 |
++-------+
+4)On which date customer with id 003 purchased the black coloured cake?
+
+mysql> select DOP from purchase where cid=003 and pid=004;
++------------+
+| DOP        |
++------------+
+| 2022-05-13 |
++------------+
+1 row in set (0.00 sec)
+5)Display the product with the price Rs.380.
+mysql> select pname from products where price=380;
++---------+
+| pname   |
++---------+
+| candies |
++---------+
+1 row in set (0.00 sec)
+6)Which product is purchased by Mr.Mittal?
+mysql> select pid from purchase where cid=003;
++------+
+| pid  |
++------+
+|    4 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select pname  from products where pid=004;
++-------+
+| pname |
++-------+
+| cake  |
++-------+
+1 row in set (0.00 sec)
+7)Select the customer name with address ‘pune’?
+mysql> select cname from customers where cadd='Pune';
++--------------+
+| cname        |
++--------------+
+| Mr.Chaterjee |
++--------------+
+1 row in set (0.00 sec)
+8)What was the total amount paid by the customer with id 003?
+mysql> select total_amount from b_info where cid=003;
++--------------+
+| total_amount |
++--------------+
+|         2100 |
++--------------+
+1 row in set (0.00 sec)
+9)Display the number of products with minimum price?
+mysql> select count(*) from products;
++----------+
+| count(*) |
++----------+
+|       14 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> select min(price) from products;
++------------+
+| min(price) |
++------------+
+|         80 |
++------------+
+1 row in set (0.00 sec)
+10)Display the name of the products with minimum price?
+mysql> select pname from products where price=(select min(price) from products);
++------------+
+| pname      |
++------------+
+| bread      |
+| bread      |
+| cream roll |
++------------+
+3 rows in set (0.00 sec)
+mysql> create view cake as select * from products where pname='cake';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from cake;
++-----+-------+--------+-------+---------------+
+| pid | pname | pcolor | price | pflavour      |
++-----+-------+--------+-------+---------------+
+|   1 | cake  | brown  |   250 | chocolate     |
+|   2 | cake  | yellow |   200 | butterscotch  |
+|   3 | cake  | white  |   220 | vanilla       |
+|   4 | cake  | black  |   480 | balck current |
+|   5 | cake  | pink   |   210 | strawberry    |
+|   6 | cake  | white  |   210 | white forest  |
+|   7 | cake  | red    |   260 | Red velvet    |
++-----+-------+--------+-------+---------------+
+7 rows in set (0.00 sec)
+mysql> create view pastry as select * from products where pname='pastry';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from pastry;
++-----+--------+--------+-------+--------------+
+| pid | pname  | pcolor | price | pflavour     |
++-----+--------+--------+-------+--------------+
+|   8 | pastry | black  |   120 | black forest |
+|   9 | pastry | white  |   160 | vanilla      |
+|  10 | pastry | brown  |   180 | chocolate    |
++-----+--------+--------+-------+--------------+
+3 rows in set (0.00 sec)
+mysql> create view cake_details as select pid,pname,pflavour,pcolor,price from products;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from cake_details;
++-----+------------+---------------+----------------+-------+
+| pid | pname      | pflavour      | pcolor         | price |
++-----+------------+---------------+----------------+-------+
+|   1 | cake       | chocolate     | brown          |   250 |
+|   2 | cake       | butterscotch  | yellow         |   200 |
+|   3 | cake       | vanilla       | white          |   220 |
+|   4 | cake       | balck current | black          |   480 |
+|   5 | cake       | strawberry    | pink           |   210 |
+|   6 | cake       | white forest  | white          |   210 |
+|   7 | cake       | Red velvet    | red            |   260 |
+|   8 | pastry     | black forest  | black          |   120 |
+|   9 | pastry     | vanilla       | white          |   160 |
+|  10 | pastry     | chocolate     | brown          |   180 |
+|  11 | bread      | wheat         | brown          |    80 |
+|  12 | bread      | cheese        | white          |    80 |
+|  13 | cream roll | vanilla       | yellow         |    80 |
+|  14 | candies    | vanilla       | rainbow colors |   380 |
++-----+------------+---------------+----------------+-------+
+14 rows in set (0.00 sec)
+1)List the product names in the price range 100 to 250.
+mysql> select pname from products WHERE price BETWEEN 100 AND 250;
++--------+
+| pname  |
++--------+
+| cake   |
+| cake   |
+| cake   |
+| cake   |
+| cake   |
+| pastry |
+| pastry |
+| pastry |
++--------+
+8 rows in set (0.00 sec)
+
+2)List the customer names who belong to Pune Or Mumbai City.
+mysql> select cname from customers WHERE cadd IN('Mumbai','Pune');
++--------------+
+| cname        |
++--------------+
+| Mr.Mittal    |
+| Mr.Chaterjee |
++--------------+
+2 rows in set (0.00 sec)
+3)List the names of the customers whose name ends with letter A.
+mysql> select cname from customers WHERE cname  LIKE '%a';
++--------------+
+| cname        |
++--------------+
+| Mrs.Malhotra |
++--------------+
+1 row in set (0.00 sec)
+4)Display customer name who has eight characters in their name.
+mysql> select cname from customers WHERE cname  LIKE '________';
++----------+
+| cname    |
++----------+
+| Ms.Desai |
++----------+
+1 row in set (0.00 sec)
