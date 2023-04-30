@@ -1,0 +1,131 @@
+Assignment 5:
+PL/SQL Stored Procedure and Stored Function. 
+Write a Stored Procedure namely proc_Grade for the categorization of student. If marks 
+scored by students in examination is <=1500 and marks>=990 then student will be 
+placed in distinction category if marks scored are between 989 and900 category is first 
+class, if marks 899 and 825 category is Higher Second Class 
+Write a PL/SQL block for using procedure created with above requirement. 
+Stud_Marks(name, total_marks) Result(Roll,Name, Class) 
+Frame the separate problem statement for writing PL/SQL Stored Procedure and 
+function, inline with above statement. The problem statement should clearly state 
+the requirements.
+
+mysql> create database student;
+Query OK, 1 row affected (0.01 sec)
+mysql> create table stud_marks(roll_no int(10) primary key,name varchar(20),total_marks int(20));
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+mysql> desc stud_marks;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| roll_no     | int         | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| total_marks | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+mysql> create table result(roll_no int(10),class varchar(20),constraint xyz foreign key(roll_no) references stud_marks(roll_no));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+mysql> desc result;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| roll_no | int         | YES  | MUL | NULL    |       |
+| class   | varchar(20) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+mysql> insert into stud_marks value(1,'sneha',850);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into stud_marks value(2,'vaishnavi',900);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into stud_marks value(3,'shravani',1130);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into stud_marks value(4,'vidya',950);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into stud_marks value(5,'trupti',1000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into stud_marks value(6,'dipti',860);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from stud_marks;
++---------+-----------+-------------+
+| roll_no | name      | total_marks |
++---------+-----------+-------------+
+|       1 | sneha     |         850 |
+|       2 | vaishnavi |         900 |
+|       3 | shravani  |        1130 |
+|       4 | vidya     |         950 |
+|       5 | trupti    |        1000 |
+|       6 | dipti     |         860 |
++---------+-----------+-------------+
+6 rows in set (0.00 sec)
+
+delimiter $$
+create procedure credit(IN roll integer)
+begin
+declare m integer;
+declare c varchar(20);
+select total_marks into m from stud_marks where roll_no=roll;
+if m>=990 and m<=1500 then set c='distinction';
+insert into result values(roll,c);
+elseif m>=900 and m<=989 then set c='first class';
+insert into result values(roll,c);
+elseif m>=825 and m<=899 then set c='higher secondary class';
+insert into result values(roll,c);
+end if;
+end $$
+delimiter ;
+
+mysql> delimiter $$
+mysql> create procedure credit(IN roll integer)
+    -> begin
+    -> declare m integer;
+    -> declare c varchar(20);
+    -> select total_marks into m from stud_marks where roll_no=roll;
+    -> if m>=990 and m<=1500 then set c='distinction';
+    -> insert into result values(roll,c);
+    -> elseif m>=900 and m<=989 then set c='first class';
+    -> insert into result values(roll,c);
+    -> elseif m>=825 and m<=899 then set c='higher secondary class';
+    -> insert into result values(roll,c);
+    -> end if;
+    -> end $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> call credit(2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from result;
++---------+-------------+
+| roll_no | class       |
++---------+-------------+
+|       2 | first class |
++---------+-------------+
+1 row in set (0.00 sec)
+
+mysql> call credit(3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> call credit(4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> call credit(5);
+Query OK, 1 row affected (0.00 sec)
+mysql> select * from result;
++---------+-------------+
+| roll_no | class       |
++---------+-------------+
+|       2 | first class |
+|       3 | distinction |
+|       4 | first class |
+|       5 | distinction |
++---------+-------------+
+4 rows in set (0.00 sec)
+
+
