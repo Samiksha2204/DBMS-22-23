@@ -1,0 +1,91 @@
+CREATE DATABASE charitydbs;
+use charitydbs;
+CREATE TABLE donors (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+CREATE TABLE charities (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  total_donations DECIMAL(10, 2) DEFAULT 0.00,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE donations (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  donor_id INT(11) NOT NULL,
+  charity_id INT(11) NOT NULL,
+  amount DECIMAL(10, 2) NOT NULL,
+  date_donated DATE NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (donor_id) REFERENCES donors(id),
+  FOREIGN KEY (charity_id) REFERENCES charities(id)
+);
+
+CREATE TABLE impact (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  charity_id INT(11) NOT NULL,
+  description TEXT NOT NULL,
+  date_impact DATE NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (charity_id) REFERENCES charities(id)
+);
+
+
+DELIMITER //
+CREATE TRIGGER update_charity_donation_total
+AFTER INSERT ON donations
+FOR EACH ROW
+BEGIN
+    UPDATE charities
+    SET total_donations = total_donations + NEW.amount
+    WHERE id = NEW.charity_id;
+END//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE get_donors_by_charity(IN charity_name VARCHAR(255))
+BEGIN
+    SELECT donors.name, donors.email, donors.phone, donors.address, donations.amount, donations.date_donated
+    FROM donors
+    JOIN donations ON donors.id = donations.donor_id
+    JOIN charities ON charities.id = donations.charity_id
+    WHERE charities.name = charity_name;
+END//
+DELIMITER ;
+
+
+INSERT INTO donors (name, email, phone, address)
+VALUES
+('John Doe', 'john.doe@example.com', '555-1234', '123 Main St'),
+('Jane Smith', 'jane.smith@example.com', '555-5678', '456 Oak Ave');
+
+INSERT INTO charities (name, description)
+VALUES
+('Charity A', 'Provides food and shelter to homeless individuals'),
+('Charity B', 'Provides educational resources to underprivileged youth'),
+('Charity C', 'Provides medical care to low-income families');
+
+INSERT INTO donations (donor_id, charity_id, amount, date_donated)
+VALUES
+(1, 1, 100.00, '2022-01-01'),
+(2, 1, 50.00, '2022-01-02'),
+(1, 2, 75.00, '2022-01-03'),
+(2, 2, 25.00, '2022-01-04'),
+(1, 3, 200.00, '2022-01-05'),
+(2, 3, 100.00, '2022-01-06');
+
+INSERT INTO impact (charity_id, description, date_impact)
+VALUES
+(1, 'Provided 50 meals to homeless individuals', '2022-01-02'),
+(1, 'Provided temporary shelter to 10 individuals', '2022-01-04'),
+(2, 'Distributed 100 school supplies to children in need', '2022-01-05'),
+(3, 'Provided medical treatment to 20 patients', '2022-01-06');
+
+CALL get_donors_by_charity('Charity B');
